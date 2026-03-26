@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html>
+<head >
+<head>
+  <title>Budget Bulking Calculator | Indian Student Diet</title>
+  <meta name="description" content="Free tool for Indian students to calculate bulking macros with cheap Indian food like soya chunks and eggs.">
+  <meta property="og:title" content="Student Budget Bulking Calculator (India)">
+  <meta property="og:description" content="Calculate your bulk with affordable Indian staples.">
+</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--c1:#1a1a2e;--c2:#16213e;--c3:#0f3460;
+--acc:#e94560;--acc2:#f5a623;--acc3:#4ecdc4;
+--fg:#f0f0f0;--fgm:#a0aab4;--fgd:#6b7a8d;
+--card:rgba(255,255,255,0.05);--cardb:rgba(255,255,255,0.1);
+--radius:12px;--font:'DM Sans',sans-serif;--head:'Bebas Neue',sans-serif;
+}
+body{background:var(--c1);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.6;min-height:100vh}
+.hero{background:linear-gradient(135deg,var(--c1) 0%,var(--c3) 100%);padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(233,69,96,0.15) 0%,transparent 60%)}
+.logo{font-family:var(--head);font-size:52px;letter-spacing:2px;line-height:1;background:linear-gradient(135deg,#fff 30%,var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo span{color:var(--acc);-webkit-text-fill-color:var(--acc)}
+.tagline{font-size:14px;color:var(--fgm);letter-spacing:3px;text-transform:uppercase;margin:8px 0 24px}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.pill{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:24px;padding:5px 14px;font-size:12px;color:var(--fgm)}
+.pill.hot{background:rgba(233,69,96,0.15);border-color:rgba(233,69,96,0.4);color:var(--acc)}
+
+nav{display:flex;background:var(--c2);border-bottom:1px solid var(--cardb);overflow-x:auto}
+.nav-btn{padding:14px 20px;font-family:var(--font);font-size:13px;font-weight:500;background:none;border:none;color:var(--fgm);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.nav-btn.active{color:var(--acc);border-bottom-color:var(--acc)}
+.nav-btn:hover:not(.active){color:var(--fg)}
+
+.main{padding:24px;max-width:960px;margin:0 auto}
+.section{display:none}.section.active{display:block}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--cardb);border-radius:var(--radius);padding:20px}
+.card-title{font-family:var(--head);font-size:22px;letter-spacing:1px;margin-bottom:16px;color:var(--fg)}
+.card-title span{color:var(--acc)}
+
+label{display:block;font-size:12px;color:var(--fgm);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;margin-top:14px}
+label:first-child{margin-top:0}
+input[type=range]{width:100%;accent-color:var(--acc);height:4px;cursor:pointer}
+input[type=number],select{width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:var(--fg);font-family:var(--font);font-size:14px;outline:none}
+input[type=number]:focus,select:focus{border-color:var(--acc)}
+select option{background:var(--c2)}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input[type=range]{flex:1}
+.range-val{font-size:16px;font-weight:700;color:var(--acc);min-width:52px;text-align:right}
+
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;border-radius:8px;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--acc);color:#fff}
+.btn-primary:hover{background:#d13a51;transform:translateY(-1px)}
+.btn-secondary{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:var(--fg)}
+.btn-secondary:hover{background:rgba(255,255,255,0.14)}
+.btn-success{background:var(--acc3);color:var(--c1)}
+.btn-success:hover{background:#3ab8b0}
+
+.stat{background:var(--card);border:1px solid var(--cardb);border-radius:var(--radius);padding:16px;text-align:center}
+.stat-val{font-family:var(--head);font-size:36px;color:var(--acc)}
+.stat-val.green{color:var(--acc3)}
+.stat-val.amber{color:var(--acc2)}
+.stat-label{font-size:11px;color:var(--fgm);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.stat-sub{font-size:12px;color:var(--fgd);margin-top:2px}
+
+.divider{border:none;border-top:1px solid var(--cardb);margin:20px 0}
+.badge{display:inline-block;padding:3px 10px;border-radius:24px;font-size:11px;font-weight:600;letter-spacing:.5px}
+.badge-green{background:rgba(78,205,196,0.15);color:var(--acc3);border:1px solid rgba(78,205,196,0.3)}
+.badge-amber{background:rgba(245,166,35,0.15);color:var(--acc2);border:1px solid rgba(245,166,35,0.3)}
+.badge-red{background:rgba(233,69,96,0.15);color:var(--acc);border:1px solid rgba(233,69,96,0.3)}
+
+.meal-row{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+.meal-row:last-child{border-bottom:none}
+.meal-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.meal-info{flex:1}
+.meal-name{font-weight:600;font-size:14px;margin-bottom:2px}
+.meal-desc{font-size:12px;color:var(--fgm)}
+.meal-macro{font-size:11px;color:var(--fgd);margin-top:4px}
+.meal-cost{text-align:right;flex-shrink:0}
+.meal-cost .price{font-family:var(--head);font-size:20px;color:var(--acc2)}
+.meal-cost .per{font-size:10px;color:var(--fgd)}
+
+.bar-wrap{margin:12px 0}
+.bar-label{display:flex;justify-content:space-between;font-size:12px;color:var(--fgm);margin-bottom:5px}
+.bar-track{background:rgba(255,255,255,0.07);border-radius:4px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+
+.tip-box{background:rgba(78,205,196,0.08);border:1px solid rgba(78,205,196,0.2);border-radius:var(--radius);padding:16px;display:flex;gap:12px;align-items:flex-start}
+.tip-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.tip-text{font-size:13px;color:var(--fgm);line-height:1.6}
+.tip-text strong{color:var(--fg)}
+
+.action-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+
+.chart-wrap{margin:16px 0;height:180px;position:relative}
+svg.chart{width:100%;height:100%}
+.chart-bar{transition:height .6s cubic-bezier(.4,0,.2,1)}
+
+.progress-ring{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.ring-label{position:absolute;text-align:center}
+.ring-val{font-family:var(--head);font-size:28px;color:var(--fg);display:block}
+.ring-sub{font-size:11px;color:var(--fgm);display:block}
+
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:16px 0}
+.day-box{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:all .2s}
+.day-box:hover,.day-box.active{background:rgba(233,69,96,0.15);border-color:rgba(233,69,96,0.4)}
+.day-name{font-size:10px;color:var(--fgm);text-transform:uppercase;letter-spacing:.5px}
+.day-cal{font-size:14px;font-weight:700;color:var(--fg);margin-top:2px}
+.day-status{width:8px;height:8px;border-radius:50%;margin:4px auto 0;background:rgba(255,255,255,0.15)}
+.day-status.ok{background:var(--acc3)}
+.day-status.over{background:var(--acc)}
+.day-status.today{background:var(--acc2)}
+
+.export-box{background:rgba(245,166,35,0.08);border:1px solid rgba(245,166,35,0.2);border-radius:var(--radius);padding:20px;text-align:center}
+.export-title{font-family:var(--head);font-size:24px;color:var(--acc2);margin-bottom:8px}
+.export-sub{font-size:13px;color:var(--fgm);margin-bottom:16px}
+
+.toggle-row{display:flex;align-items:center;gap:10px;margin-top:12px}
+.toggle{width:40px;height:22px;background:rgba(255,255,255,0.15);border-radius:11px;cursor:pointer;position:relative;transition:background .2s}
+.toggle.on{background:var(--acc)}
+.toggle::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left .2s}
+.toggle.on::after{left:20px}
+.toggle-label{font-size:13px;color:var(--fgm)}
+
+h3{font-family:var(--head);font-size:20px;letter-spacing:.5px;color:var(--fg);margin-bottom:12px}
+
+.scroll-table{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{padding:8px 12px;text-align:left;font-size:11px;color:var(--fgm);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--cardb);font-weight:500}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--fg)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.02)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="logo">BULK<span>SMART</span></div>
+  <div class="tagline">Student Budget Bulking Planner</div>
+  <div class="pills">
+    <div class="pill hot">🔥 Calorie Calculator</div>
+    <div class="pill">Budget Meal Plans</div>
+    <div class="pill">Macro Tracker</div>
+    <div class="pill">Progress Charts</div>
+  </div>
+</div>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection('calc')">📊 Calculator</button>
+  <button class="nav-btn" onclick="showSection('meals')">🍽️ Meal Plan</button>
+  <button class="nav-btn" onclick="showSection('tracker')">📈 Tracker</button>
+  <button class="nav-btn" onclick="showSection('tips')">💡 Tips</button>
+  <button class="nav-btn" onclick="showSection('export')">💾 Save Plan</button>
+</nav>
+
+<div class="main">
+
+  <!-- CALCULATOR SECTION -->
+  <div class="section active" id="calc">
+    <div class="grid2" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-title">Your <span>Stats</span></div>
+
+        <label>Age</label>
+        <div class="range-row">
+          <input type="range" min="16" max="30" value="20" id="age" oninput="calc()">
+          <span class="range-val" id="age-v">20</span>
+        </div>
+
+        <label>Weight (kg)</label>
+        <div class="range-row">
+          <input type="range" min="45" max="120" value="70" id="weight" oninput="calc()">
+          <span class="range-val" id="weight-v">70</span>
+        </div>
+
+        <label>Height (cm)</label>
+        <div class="range-row">
+          <input type="range" min="150" max="210" value="175" id="height" oninput="calc()">
+          <span class="range-val" id="height-v">175</span>
+        </div>
+
+        <label>Biological Sex</label>
+        <select id="sex" onchange="calc()">
+          <option value="m">Male</option>
+          <option value="f">Female</option>
+        </select>
+
+        <label>Activity Level</label>
+        <select id="activity" onchange="calc()">
+          <option value="1.2">Sedentary (desk life)</option>
+          <option value="1.375">Lightly Active (1-3 days/wk)</option>
+          <option value="1.55" selected>Moderately Active (3-5 days/wk)</option>
+          <option value="1.725">Very Active (6-7 days/wk)</option>
+          <option value="1.9">Athlete (2x/day training)</option>
+        </select>
+<div class="main">
+  ... (your existing calculator cards) ...
+
+  <div class="divider"></div>
+  <div class="card">
+      <h3 style="color:var(--acc2)">Cheap Indian Protein Sources</h3>
+      <p>Soya Chunks (52g protein), Eggs, Dal, and Sattu are your best friends.</p>
+  </div>
+
+</div> ```
+
+---
+
+### Step 3: The "Copy Button" Logic (The Basement)
+Scroll to the very bottom of your file. Look for the `<script>` tag. Paste the "Copy" function **inside** the script tags, but **outside** of any other functions.
+
+**Look for this at the bottom:**
+```javascript
+<script>
+  // ... your existing calculator math ...
+
+  // PASTE THIS AT THE BOTTOM OF THE SCRIPT
+  function copyResults() {
+      const cal = document.getElementById('cal-display').innerText; 
+      navigator.clipboard.writeText("My Daily Goal: " + cal + " calories. Check it out at budgetbulkingcalculator.netlify.app");
+      alert("Results copied to clipboard!");
+  }
+</script>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Budget & <span>Goals</span></div>
+
+        <label>Weekly Food Budget (₹)</label>
+        <div class="range-row">
+          <input type="range" min="500" max="5000" step="100" value="1500" id="budget" oninput="calc()">
+          <span class="range-val" id="budget-v">₹1500</span>
+        </div>
+
+        <label>Target Weekly Weight Gain (kg)</label>
+        <div class="range-row">
+          <input type="range" min="1" max="5" step="1" value="2" id="gain" oninput="calc()">
+          <span class="range-val" id="gain-v">0.2</span>
+        </div>
+
+        <label>Bulking Goal</label>
+        <select id="goal" onchange="calc()">
+          <option value="lean">Lean Bulk (min fat gain)</option>
+          <option value="moderate" selected>Moderate Bulk (balanced)</option>
+          <option value="aggressive">Aggressive Bulk (max size)</option>
+        </select>
+
+        <label>Training Style</label>
+        <select id="training" onchange="calc()">
+          <option value="strength">Strength (heavy lifting)</option>
+          <option value="hypertrophy" selected>Hypertrophy (muscle building)</option>
+          <option value="athletic">Athletic / Mixed</option>
+        </select>
+
+        <label>Dietary Preference</label>
+        <select id="diet" onchange="buildMeals()">
+          <option value="omni">Omnivore</option>
+          <option value="veg">Vegetarian</option>
+          <option value="vegan">Vegan</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid3" id="stats-row">
+      <div class="stat">
+        <div class="stat-val" id="r-cal">—</div>
+        <div class="stat-label">Daily Calories</div>
+        <div class="stat-sub">for bulking</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val green" id="r-protein">—</div>
+        <div class="stat-label">Protein (g/day)</div>
+        <div class="stat-sub" id="r-protein-s">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val amber" id="r-spend">—</div>
+        <div class="stat-label">Daily Budget</div>
+        <div class="stat-sub">per day for food</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Macro Breakdown</h3>
+      <div id="macro-bars"></div>
+      <hr class="divider">
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div>
+          <span class="badge badge-green" id="bmi-badge">BMI: —</span>
+        </div>
+        <div>
+          <span class="badge badge-amber" id="surplus-badge">Surplus: —</span>
+        </div>
+        <div>
+          <span class="badge badge-red" id="goal-badge">Goal: —</span>
+        </div>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-primary" onclick="showSection('meals')">Generate Meal Plan →</button>
+        <button class="btn btn-secondary" onclick="showSection('tracker')">View Tracker →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEALS SECTION -->
+  <div class="section" id="meals">
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div class="card-title" style="margin-bottom:0">Daily Meal <span>Plan</span></div>
+        <div style="display:flex;gap:8px">
+          <span class="badge badge-green" id="ml-cal">0 kcal</span>
+          <span class="badge badge-amber" id="ml-cost">₹0/day</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="meal-list">
+      <div id="meal-items"></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Weekly Shopping List</h3>
+      <div class="scroll-table">
+        <table>
+          <thead><tr><th>Item</th><th>Qty (weekly)</th><th>Approx. Cost</th><th>Protein/kg</th></tr></thead>
+          <tbody id="shop-list"></tbody>
+        </table>
+      </div>
+      <div class="action-row">
+        <button class="btn btn-success" onclick="alert('Shopping list copied! 🛒')">Copy List</button>
+        <button class="btn btn-secondary" onclick="showSection('export')">Save Plan →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACKER SECTION -->
+  <div class="section" id="tracker">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">This Week's <span>Progress</span></div>
+      <div class="week-grid" id="week-grid"></div>
+    </div>
+
+    <div class="grid2" style="margin-bottom:16px">
+      <div class="card">
+        <h3>Calorie Goal</h3>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:8px">
+          <div class="progress-ring">
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+              <circle id="ring-cal" cx="50" cy="50" r="40" fill="none" stroke="#e94560" stroke-width="8"
+                stroke-dasharray="251.2" stroke-dashoffset="63" stroke-linecap="round"
+                transform="rotate(-90 50 50)"/>
+            </svg>
+            <div class="ring-label">
+              <span class="ring-val" id="ring-cal-pct">75%</span>
+              <span class="ring-sub">today</span>
+            </div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;color:var(--fgm)">Consumed</div>
+            <div style="font-family:var(--head);font-size:26px" id="cal-consumed">2400 kcal</div>
+            <div style="font-size:13px;color:var(--fgm);margin-top:8px">Remaining</div>
+            <div style="font-family:var(--head);font-size:22px;color:var(--acc3)" id="cal-remain">600 kcal</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Spend vs Budget</h3>
+        <div id="spend-bars" style="margin-top:12px"></div>
+        <hr class="divider">
+        <div style="display:flex;justify-content:space-between;font-size:13px">
+          <span style="color:var(--fgm)">Weekly remaining</span>
+          <span style="color:var(--acc2);font-weight:700" id="budget-remain">₹—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Calorie Bar Chart — Last 7 Days</h3>
+      <div class="chart-wrap">
+        <svg class="chart" id="bar-chart" viewBox="0 0 560 160" preserveAspectRatio="none"></svg>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--fgd);margin-top:4px">Red line = daily target</div>
+    </div>
+  </div>
+
+  <!-- TIPS SECTION -->
+  <div class="section" id="tips">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">Bulking on a <span>Budget</span> — Student Guide</div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="tip-box">
+          <div class="tip-icon">💰</div>
+          <div class="tip-text"><strong>Buy in bulk, save in bulk.</strong> Oats, rice, lentils, and eggs are the holy trinity of student bulking. Buy 5 kg bags — cost per gram of protein drops dramatically vs. small packs.</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">🥚</div>
+          <div class="tip-text"><strong>Eggs are the perfect food.</strong> At ~₹6 each with 6g protein, they offer an unbeatable protein-to-cost ratio. Eat them boiled, scrambled, or in curries for variety.</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">⚖️</div>
+          <div class="tip-text"><strong>Aim for 0.15–0.25 kg weight gain per week.</strong> Gaining faster usually means gaining more fat. Slow and steady builds quality muscle mass with less wasted effort (and money).</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">🍛</div>
+          <div class="tip-text"><strong>Meal prep on Sundays.</strong> Cook a giant batch of rice, dal, and boiled eggs. Portion into containers. You'll never be tempted to order expensive food when you're tired and hungry.</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">📱</div>
+          <div class="tip-text"><strong>Track your food for just 2 weeks.</strong> You don't need to track forever. Two weeks of logging teaches you what a serving of rice looks like and how many calories your usual meals contain.</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">💧</div>
+          <div class="tip-text"><strong>Creatine is the only supplement worth buying as a student.</strong> It's cheap (₹600–800/month), proven, and will meaningfully boost your strength and muscle gain. Skip the expensive pre-workouts.</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">🛒</div>
+          <div class="tip-text"><strong>Shop at wholesale or local mandis.</strong> Vegetables and grains from local markets are 30–50% cheaper than supermarkets. Buy what's in season for maximum nutrition at minimum cost.</div>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">😴</div>
+          <div class="tip-text"><strong>Sleep is free and anabolic.</strong> 7–9 hours of sleep releases more growth hormone than any supplement. Students often neglect sleep, which kills muscle growth and increases fat storage.</div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <h3>Common Mistakes to Avoid</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--fgm)">
+          <span style="color:var(--acc);flex-shrink:0">✗</span>Bulking too aggressively — you gain mostly fat, not muscle
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--fgm)">
+          <span style="color:var(--acc);flex-shrink:0">✗</span>Not eating enough protein — aim for 1.6–2.2g per kg bodyweight
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--fgm)">
+          <span style="color:var(--acc);flex-shrink:0">✗</span>Skipping meals and then bingeing — inconsistency wrecks results
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--fgm)">
+          <span style="color:var(--acc);flex-shrink:0">✗</span>Spending ₹3000/month on whey protein before optimising whole food first
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--fgm)">
+          <span style="color:var(--acc);flex-shrink:0">✗</span>Not progressive overloading — eat more + lift heavier, or it's just fat gain
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORT SECTION -->
+  <div class="section" id="export">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">Save Your <span>Plan</span></div>
+
+      <div class="export-box" style="margin-bottom:20px">
+        <div class="export-title">YOUR PLAN IS READY</div>
+        <div class="export-sub">Download, share, or print your personalised bulking plan with meal ideas and budget breakdown.</div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="exportPlan()">⬇ Download PDF</button>
+          <button class="btn btn-success" onclick="copyPlan()">📋 Copy Summary</button>
+          <button class="btn btn-secondary" onclick="printPlan()">🖨 Print Plan</button>
+        </div>
+      </div>
+
+      <h3>Plan Summary</h3>
+      <div id="summary-box" style="background:rgba(255,255,255,0.04);border-radius:8px;padding:16px;font-size:13px;color:var(--fgm);line-height:2;font-family:monospace"></div>
+
+      <hr class="divider">
+      <h3>Notification Settings</h3>
+      <div class="toggle-row">
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        <span class="toggle-label">Daily calorie reminder</span>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+        <span class="toggle-label">Weekly budget summary</span>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+        <span class="toggle-label">Meal prep reminder (Sunday 6pm)</span>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle" onclick="this.classList.toggle('on')"></div>
+        <span class="toggle-label">Monthly progress check-in</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main -->
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const idx={'calc':0,'meals':1,'tracker':2,'tips':3,'export':4};
+  document.querySelectorAll('.nav-btn')[idx[id]].classList.add('active');
+  if(id==='meals') buildMeals();
+  if(id==='tracker') buildTracker();
+  if(id==='export') buildSummary();
+}
+
+let G={cal:3000,protein:160,budget:1500,surplus:300,dailyBudget:214};
+
+function calc(){
+  const age=+document.getElementById('age').value;
+  const wt=+document.getElementById('weight').value;
+  const ht=+document.getElementById('height').value;
+  const sex=document.getElementById('sex').value;
+  const act=+document.getElementById('activity').value;
+  const bud=+document.getElementById('budget').value;
+  const gain=+document.getElementById('gain').value*0.1;
+  const goalT=document.getElementById('goal').value;
+
+  document.getElementById('age-v').textContent=age;
+  document.getElementById('weight-v').textContent=wt+' kg';
+  document.getElementById('height-v').textContent=ht+' cm';
+  document.getElementById('budget-v').textContent='₹'+bud;
+  document.getElementById('gain-v').textContent=(+document.getElementById('gain').value*0.1).toFixed(1);
+
+  const bmr=sex==='m'?(10*wt)+(6.25*ht)-(5*age)+5:(10*wt)+(6.25*ht)-(5*age)-161;
+  const tdee=Math.round(bmr*act);
+  const surplusMap={lean:200,moderate:350,aggressive:500};
+  const surplus=surplusMap[goalT];
+  const target=tdee+surplus;
+  const protein=Math.round(wt*2);
+  const fat=Math.round(wt*1);
+  const carbs=Math.round((target-protein*4-fat*9)/4);
+  const daily=Math.round(bud/7);
+  const bmi=+(wt/(ht/100)**2).toFixed(1);
+
+  G={cal:target,protein,carbs,fat,budget:bud,surplus,dailyBudget:daily,weight:wt,height:ht,bmi};
+
+  document.getElementById('r-cal').textContent=target.toLocaleString();
+  document.getElementById('r-protein').textContent=protein+'g';
+  document.getElementById('r-protein-s').textContent=(protein/wt).toFixed(1)+'g per kg';
+  document.getElementById('r-spend').textContent='₹'+daily;
+
+  const bmiCat=bmi<18.5?'Underweight':bmi<25?'Healthy':bmi<30?'Overweight':'Obese';
+  document.getElementById('bmi-badge').textContent='BMI: '+bmi+' ('+bmiCat+')';
+  document.getElementById('surplus-badge').textContent='Surplus: +'+surplus+' kcal';
+  document.getElementById('goal-badge').textContent='Goal: '+goalT.charAt(0).toUpperCase()+goalT.slice(1)+' Bulk';
+
+  const ptotal=protein*4,ftotal=fat*9,ctotal=carbs*4,all=ptotal+ftotal+ctotal;
+  document.getElementById('macro-bars').innerHTML=
+    mkBar('Protein','#4ecdc4',Math.round(ptotal/all*100),protein+'g ('+Math.round(ptotal/all*100)+'%)')+
+    mkBar('Carbohydrates','#f5a623',Math.round(ctotal/all*100),carbs+'g ('+Math.round(ctotal/all*100)+'%)')+
+    mkBar('Fats','#e94560',Math.round(ftotal/all*100),fat+'g ('+Math.round(ftotal/all*100)+'%)');
+}
+
+function mkBar(label,color,pct,right){
+  return`<div class="bar-wrap"><div class="bar-label"><span>${label}</span><span style="color:var(--fgm)">${right}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
+}
+
+const MEALS={
+  omni:[
+    {icon:'🌅',bg:'rgba(245,166,35,0.15)',name:'Breakfast: Egg & Oats Bowl',desc:'4 boiled eggs + 80g oats + banana + milk',macros:'P: 38g | C: 72g | F: 16g',cost:'₹35',kcal:580},
+    {icon:'💪',bg:'rgba(78,205,196,0.15)',name:'Mid-Morning: Peanut Butter Toast',desc:'2 slices whole wheat bread + 2 tbsp PB + milk',macros:'P: 20g | C: 48g | F: 18g',cost:'₹25',kcal:430},
+    {icon:'🍛',bg:'rgba(233,69,96,0.15)',name:'Lunch: Chicken Rice Bowl',desc:'150g chicken breast + 200g rice + dal + veggies',macros:'P: 52g | C: 85g | F: 12g',cost:'₹65',kcal:660},
+    {icon:'🥜',bg:'rgba(245,166,35,0.12)',name:'Snack: Chana + Curd',desc:'100g boiled chana + 200g curd + spices',macros:'P: 22g | C: 30g | F: 8g',cost:'₹20',kcal:280},
+    {icon:'🌙',bg:'rgba(78,205,196,0.12)',name:'Dinner: Paneer Dal Rice',desc:'100g paneer + 1 cup dal + 200g rice + roti',macros:'P: 44g | C: 90g | F: 18g',cost:'₹55',kcal:700},
+    {icon:'🥛',bg:'rgba(233,69,96,0.12)',name:'Before Bed: Milk + Banana',desc:'250ml full fat milk + 2 bananas',macros:'P: 12g | C: 58g | F: 8g',cost:'₹18',kcal:350}
+  ],
+  veg:[
+    {icon:'🌅',bg:'rgba(245,166,35,0.15)',name:'Breakfast: Oats & Curd Bowl',desc:'80g oats + 200g curd + honey + fruits',macros:'P: 24g | C: 68g | F: 10g',cost:'₹28',kcal:460},
+    {icon:'💪',bg:'rgba(78,205,196,0.15)',name:'Mid-Morning: Paneer Toast',desc:'2 slices bread + 80g paneer + veggies',macros:'P: 24g | C: 40g | F: 16g',cost:'₹30',kcal:400},
+    {icon:'🍛',bg:'rgba(233,69,96,0.15)',name:'Lunch: Paneer Rice Dal',desc:'150g paneer + 200g rice + rajma dal + sabzi',macros:'P: 42g | C: 80g | F: 18g',cost:'₹60',kcal:660},
+    {icon:'🥜',bg:'rgba(245,166,35,0.12)',name:'Snack: Peanut Chaat',desc:'100g roasted peanuts + sprouts + lemon',macros:'P: 26g | C: 20g | F: 14g',cost:'₹18',kcal:310},
+    {icon:'🌙',bg:'rgba(78,205,196,0.12)',name:'Dinner: Soya Chunk Curry + Roti',desc:'100g soya chunks + 3 rotis + sabzi',macros:'P: 36g | C: 70g | F: 10g',cost:'₹40',kcal:520},
+    {icon:'🥛',bg:'rgba(233,69,96,0.12)',name:'Before Bed: Milk + Banana',desc:'250ml full fat milk + 2 bananas',macros:'P: 12g | C: 58g | F: 8g',cost:'₹18',kcal:350}
+  ],
+  vegan:[
+    {icon:'🌅',bg:'rgba(245,166,35,0.15)',name:'Breakfast: Oats & Soy Milk',desc:'80g oats + 250ml soy milk + banana + nuts',macros:'P: 22g | C: 72g | F: 12g',cost:'₹35',kcal:480},
+    {icon:'💪',bg:'rgba(78,205,196,0.15)',name:'Mid-Morning: PB & Banana Shake',desc:'2 tbsp PB + 2 bananas + soy milk blend',macros:'P: 18g | C: 60g | F: 16g',cost:'₹28',kcal:460},
+    {icon:'🍛',bg:'rgba(233,69,96,0.15)',name:'Lunch: Rajma Rice + Sabzi',desc:'1 cup rajma + 200g rice + seasonal veggies',macros:'P: 28g | C: 90g | F: 6g',cost:'₹35',kcal:530},
+    {icon:'🥜',bg:'rgba(245,166,35,0.12)',name:'Snack: Sprouts Chaat',desc:'150g sprouts + peanuts + lemon + spices',macros:'P: 20g | C: 28g | F: 8g',cost:'₹20',kcal:260},
+    {icon:'🌙',bg:'rgba(78,205,196,0.12)',name:'Dinner: Soya Chunk + Roti + Dal',desc:'100g soya + 3 rotis + masoor dal',macros:'P: 40g | C: 75g | F: 8g',cost:'₹38',kcal:530},
+    {icon:'🥛',bg:'rgba(233,69,96,0.12)',name:'Before Bed: Soy Milk + Nuts',desc:'300ml soy milk + 30g mixed nuts',macros:'P: 16g | C: 20g | F: 18g',cost:'₹30',kcal:300}
+  ]
+};
+
+const SHOP={
+  omni:[['Eggs (dozen)','4 dozen','₹240','72g/dozen'],['Chicken breast','1.5 kg','₹330','31g/100g'],['Oats (500g)','2 packs','₹120','13g/100g'],['Rice (5kg)','0.5 bag','₹100','7g/100g'],['Paneer (200g)','2 packs','₹140','18g/100g'],['Full fat milk','3.5 litres','₹175','3.4g/100ml'],['Peanut butter','1 jar','₹150','25g/100g'],['Dal (mixed)','500g','₹80','25g/100g'],['Bananas','12 pcs','₹60','1.1g/pc'],['Vegetables','seasonal','₹120','—']],
+  veg:[['Paneer (200g)','3 packs','₹210','18g/100g'],['Oats (500g)','2 packs','₹120','13g/100g'],['Curd (500g)','2 tubs','₹100','11g/100g'],['Rice (5kg)','0.5 bag','₹100','7g/100g'],['Soya chunks','500g','₹60','52g/100g'],['Dal (mixed)','500g','₹80','25g/100g'],['Rajma','500g','₹70','24g/100g'],['Milk','3 litres','₹150','3.4g/100ml'],['Peanuts (500g)','1 pack','₹80','26g/100g'],['Vegetables','seasonal','₹120','—']],
+  vegan:[['Soya chunks','1 kg','₹120','52g/100g'],['Oats (1kg)','1 pack','₹110','13g/100g'],['Soy milk (1L)','4 cartons','₹320','3.3g/100ml'],['Rice (5kg)','0.5 bag','₹100','7g/100g'],['Rajma','500g','₹70','24g/100g'],['Peanut butter','1 jar','₹150','25g/100g'],['Dal (masoor)','500g','₹70','26g/100g'],['Bananas','15 pcs','₹75','1.1g/pc'],['Mixed nuts','250g','₹180','15g/100g'],['Vegetables','seasonal','₹120','—']]
+};
+
+function buildMeals(){
+  const dt=document.getElementById('diet').value;
+  const meals=MEALS[dt];
+  let totalKcal=0,totalCost=0;
+  let html=meals.map(m=>{
+    totalKcal+=m.kcal;
+    totalCost+=parseInt(m.cost.replace('₹',''));
+    return`<div class="meal-row">
+      <div class="meal-icon" style="background:${m.bg}">${m.icon}</div>
+      <div class="meal-info">
+        <div class="meal-name">${m.name}</div>
+        <div class="meal-desc">${m.desc}</div>
+        <div class="meal-macro">${m.macros} | ${m.kcal} kcal</div>
+      </div>
+      <div class="meal-cost">
+        <div class="price">${m.cost}</div>
+        <div class="per">per day</div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('meal-items').innerHTML=html;
+  document.getElementById('ml-cal').textContent=totalKcal+' kcal';
+  document.getElementById('ml-cost').textContent='₹'+totalCost+'/day';
+
+  const shop=SHOP[dt];
+  document.getElementById('shop-list').innerHTML=shop.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td style="color:var(--acc3)">${r[3]}</td></tr>`).join('');
+}
+
+function buildTracker(){
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const cals=[2850,3100,2950,3200,0,3050,2700];
+  const target=G.cal||3000;
+  let html=days.map((d,i)=>{
+    const c=cals[i];
+    const isToday=i===3;
+    const status=i===4?'':c>target*1.1?'over':isToday?'today':'ok';
+    return`<div class="day-box ${isToday?'active':''}">
+      <div class="day-name">${d}</div>
+      <div class="day-cal">${c||'—'}</div>
+      <div class="day-status ${status}"></div>
+    </div>`;
+  }).join('');
+  document.getElementById('week-grid').innerHTML=html;
+
+  const consumed=Math.round(target*0.75);
+  const remain=target-consumed;
+  document.getElementById('cal-consumed').textContent=consumed.toLocaleString()+' kcal';
+  document.getElementById('cal-remain').textContent=remain.toLocaleString()+' kcal';
+  const pct=Math.round(consumed/target*100);
+  document.getElementById('ring-cal-pct').textContent=pct+'%';
+  const offset=Math.round(251.2*(1-pct/100));
+  document.getElementById('ring-cal').setAttribute('stroke-dashoffset',offset);
+
+  const bud=G.budget||1500;
+  const spent=Math.round(bud*0.6);
+  document.getElementById('budget-remain').textContent='₹'+(bud-spent);
+  document.getElementById('spend-bars').innerHTML=
+    mkBar('Spent this week','#f5a623',Math.round(spent/bud*100),'₹'+spent+' of ₹'+bud)+
+    mkBar('Daily avg','#4ecdc4',65,'₹'+Math.round(spent/4)+'/day');
+
+  buildBarChart(cals,target);
+}
+
+function buildBarChart(cals,target){
+  const w=560,h=140,pad=30,bw=50,gap=20;
+  const max=Math.max(...cals.filter(c=>c>0),target)*1.15;
+  const scale=v=>h-pad-(v/max*(h-pad));
+  const bars=cals.map((c,i)=>{
+    const x=pad+i*(bw+gap);
+    if(!c) return`<rect x="${x}" y="${h-pad}" width="${bw}" height="0" fill="rgba(255,255,255,0.1)" rx="4"/>`;
+    const y=scale(c);
+    const bh=h-pad-y;
+    const fill=c>target*1.05?'#e94560':c<target*0.9?'#f5a623':'#4ecdc4';
+    return`<rect class="chart-bar" x="${x}" y="${y}" width="${bw}" height="${bh}" fill="${fill}" rx="4" opacity="0.85"/>
+<text x="${x+bw/2}" y="${y-6}" text-anchor="middle" fill="${fill}" font-size="11">${c}</text>
+<text x="${x+bw/2}" y="${h-12}" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10">${['M','T','W','T','F','S','S'][i]}</text>`;
+  });
+  const ty=scale(target);
+  const svg=`${bars.join('')}
+<line x1="${pad}" y1="${ty}" x2="${w-pad}" y2="${ty}" stroke="#e94560" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
+<text x="${w-pad+4}" y="${ty+4}" fill="#e94560" font-size="10" opacity="0.8">${target}</text>`;
+  document.getElementById('bar-chart').innerHTML=svg;
+}
+
+function buildSummary(){
+  const w=G.weight||70,h=G.height||175,c=G.cal||3000,p=G.protein||160,b=G.budget||1500;
+  const text=`BULKSMART — YOUR PLAN SUMMARY
+${'─'.repeat(40)}
+Weight:        ${w} kg
+Height:        ${h} cm
+Daily Calories: ${c.toLocaleString()} kcal
+Daily Protein:  ${p}g
+Calorie Surplus: +${G.surplus||350} kcal
+
+BUDGET
+${'─'.repeat(40)}
+Weekly Budget:  ₹${b}
+Daily Food Budget: ₹${Math.round(b/7)}
+Monthly Est:    ₹${Math.round(b*4.3)}
+
+Generated by BulkSmart — ${new Date().toDateString()}`;
+  document.getElementById('summary-box').textContent=text;
+}
+
+function copyPlan(){
+  const txt=document.getElementById('summary-box').textContent;
+  navigator.clipboard.writeText(txt).then(()=>alert('Plan copied to clipboard! 📋')).catch(()=>alert('Copy this text manually from the summary box.'));
+}
+function exportPlan(){alert('PDF export would be available in the full app. For now, use Print → Save as PDF! 🖨️');}
+function printPlan(){window.print();}
+
+calc();
+buildMeals();
+</script>
+</body>
+</html>
